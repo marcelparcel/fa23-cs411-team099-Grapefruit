@@ -19,13 +19,18 @@ export const SignUpView: React.FC = () => {
 
     console.log('Signed up successfully with email: '+emailInput.value+' and password: '+passwordInput.value);
 
+
     // axios.post('backend api endpoint here', { email, password })
     //   .then(response => console.log('Data sent successfully'))
     //   .catch(error => console.error('Error sending data:', error));
+
+    // wait until the post request is done -> on success, show success page -> redirect to dashboard
+    // navigate('/dashboard');
   };
 
+
   return (
-    <div className="signup-container">
+        <div className="signup-container">
             <div className="signup-box">
                 <h1>Sign Up</h1>
                 <input type="text" placeholder="Email" />
