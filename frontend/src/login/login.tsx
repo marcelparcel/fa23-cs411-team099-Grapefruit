@@ -1,7 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 
-export default function LoginView() {
+interface LoginViewProps {
+    handleLogin: () => void;
+}
+
+export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
+    const navigate = useNavigate();
 
     const loginUser = () => {
         const emailInput = document.querySelector('input[type="text"]') as HTMLInputElement;
@@ -17,13 +23,17 @@ export default function LoginView() {
         // const user = new User(emailInput.value, passwordInput.value); for later + sign up only..
     
         console.log("success: "+emailInput+ " "+passwordInput);
+
+        // assuming the info is valid..
+        handleLogin();
+        navigate('/dashboard');
     };
 
 
     return (
         <div className="login-container">
             <div className="login-box">
-                <h1>Sign in</h1>
+                <h1>Log in</h1>
                 <input type="text" placeholder="Email" />
                 <input type="password" placeholder="Password" />
                 <a href="signup" className="signup-link">No account yet? Sign up here</a>
@@ -31,5 +41,5 @@ export default function LoginView() {
             </div>
         </div>
     );
-}
+};
 
