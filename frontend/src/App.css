@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Contrail+One');
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,34 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.link-styles {
+  float: right;
+  color: #f0f0f0;
+  padding: 7px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+  margin-right: 25px;
+  transition: 0.3s;
+}
+
+#navbar {
+  overflow: hidden;
+  text-align: center;
+  background-color: #4f406d;
+  padding: 10px 10px;
+  transition: 0.3s;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 5px 10px;
+}
+
+.main {
+  background-color: #f0f0f0;
+  font-family: 'Contrail One';
 }

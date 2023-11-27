@@ -1,11 +1,11 @@
-.login-container {
+.signup-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-  }
+}
   
-  .login-box {
+.signup-box {
     width: 400px;
     height: 400px;
     border: 2px solid black;
@@ -17,6 +17,16 @@
     align-items: center;
     justify-content: center; /* Center vertically */
     position: relative;
+}
+
+button {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #b05ccf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
   }
   
   
@@ -28,19 +38,8 @@
     border-radius: 5px;
   }
   
-  .signup-link {
+  .login-link {
     margin: 10px 0;
     text-decoration: none;
     font-size: 10px;
   }
-  
-  button {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #b05ccf;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  

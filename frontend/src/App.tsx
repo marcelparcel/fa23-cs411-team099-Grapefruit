@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -10,16 +9,23 @@ import {
 
 import HomeView from './home/home';
 import LoginView from './login/login';
+import { SignUpView } from './signup/signup';
 
 
 function App() {
   return (
     <Router> 
-     <div>
-         <Routes>
+      <div className="main">
+        <nav id="navbar" className="nologin">
+          <Link className={"link-styles"} to="/login">Login</Link>
+          <Link className={"link-styles"} to="/">Home</Link>
+        </nav>
+
+        <Routes>
            <Route path="/" element={<HomeView></HomeView>}/>
            <Route path="/login" element={<LoginView></LoginView>}/>
-         </Routes>
+           <Route path="/signup" element={<SignUpView></SignUpView>}/>
+        </Routes>
      </div>
     </Router>
    );
