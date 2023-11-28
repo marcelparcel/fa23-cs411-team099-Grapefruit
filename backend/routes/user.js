@@ -10,7 +10,7 @@ user.get('/', async function(req, res, next) {
   var conn = await getConn;
   var query = 'SELECT * FROM User WHERE Email = ? AND Password = ?';
   try {
-      const rows = await conn.query(query, [req.body.email, req.body.password]); // example query
+      const rows = await conn.query(query, [req.query.email, req.query.password]); // example query
       conn.release();
       return res.json(rows[0]);
     } catch (err) {
