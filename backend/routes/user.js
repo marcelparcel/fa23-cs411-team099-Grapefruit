@@ -4,7 +4,7 @@ var user = express.Router();
 
 /* Logging in user */
 user.get('/', async function(req, res, next) {
-  if (!req.body.email || !req.body.password) {
+  if (!req.query.email || !req.query.password) {
     return res.status(400).json({ message: 'Missing email or password.' });
   }
   var conn = await getConn;
