@@ -8,7 +8,6 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var stopRouter = require('./routes/stop');
-var stopRouter = require('./routes/stop');
 var stop_idRouter = require('./routes/stop_id');
 
 var app = express();
