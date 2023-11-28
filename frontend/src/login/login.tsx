@@ -32,7 +32,8 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
             handleLogin();
             navigate('/dashboard');
         } else {
-            console.log("user not found");
+            console.log("user not found"+emailInput.value+ " "+passwordInput.value);
+            console.log(login.data);
         }
         
     };
