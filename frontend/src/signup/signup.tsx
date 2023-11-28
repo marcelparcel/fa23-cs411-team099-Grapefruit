@@ -1,12 +1,14 @@
 import './signup.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+interface LoginViewProps {
+  handleLogin: () => void;
+}
 
-/* class User {
-  constructor(public email: string, public password: string) {}
-} */
+export const SignUpView: React.FC<LoginViewProps> = ({ handleLogin }) => {
+  const navigate = useNavigate();
 
-export const SignUpView: React.FC = () => {
-
-  const signUpUser = () => {
+  const signUpUser = async () => {
     const emailInput = document.querySelector('input[type="text"]') as HTMLInputElement;
     const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
 
@@ -15,24 +17,28 @@ export const SignUpView: React.FC = () => {
         return;
     }
 
-    // const user = new User(email, password);
+    var signup = await axios.post('http://localhost:4000/user', { 
+        params: {
+          email: emailInput.value,
+          password: passwordInput.value
+          // add name 
+        }
+    });
 
-    console.log('Signed up successfully with email: '+emailInput.value+' and password: '+passwordInput.value);
-
-
-    // axios.post('backend api endpoint here', { email, password })
-    //   .then(response => console.log('Data sent successfully'))
-    //   .catch(error => console.error('Error sending data:', error));
-
-    // wait until the post request is done -> on success, show success page -> redirect to dashboard
-    // navigate('/dashboard');
+    if (Object.keys(signup)) {
+      console.log('Signed up successfully with email: '+emailInput.value+' and password: '+passwordInput.value);
+      handleLogin();
+      navigate('/dashboard');
+    } else {
+      console.log("unable to sign up :(");
+    }
   };
-
 
   return (
         <div className="signup-container">
             <div className="signup-box">
                 <h1>Sign Up</h1>
+                <input type="text" placeholder="Name" />
                 <input type="text" placeholder="Email" />
                 <input type="password" placeholder="Password" />
                 <a href="login" className="login-link">Already have an account? Log in here</a>

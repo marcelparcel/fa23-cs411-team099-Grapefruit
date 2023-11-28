@@ -8,8 +8,9 @@ interface LogoutViewProps {
 
 export const LogoutView: React.FC<LogoutViewProps> = ({ handleLogout }) => {
     const navigate = useNavigate();
-    handleLogout();
     navigate('/');
+    handleLogout();
+    
 
     return (
         <div>

@@ -52,7 +52,7 @@ function App() {
         <Routes>
            <Route path="/" element={<HomeView></HomeView>}/>
            <Route path="/login" element={<LoginView handleLogin={handleLogin} />} />
-           <Route path="/signup" element={<SignUpView></SignUpView>}/>
+           <Route path="/signup" element={<SignUpView handleLogin={handleLogin} />}/>
            <Route path="/planner" element={<PlannerView></PlannerView>}/>
            <Route path="/dashboard" element={<DashboardView></DashboardView>}/>
            <Route path="/logout" element={<LogoutView handleLogout={handleLogout} />}/>

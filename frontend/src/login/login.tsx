@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
@@ -9,7 +10,7 @@ interface LoginViewProps {
 export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
     const navigate = useNavigate();
 
-    const loginUser = () => {
+    const loginUser = async () => {
         const emailInput = document.querySelector('input[type="text"]') as HTMLInputElement;
         const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
     
@@ -19,14 +20,21 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
         }
 
         // need to also check if email and password is in the database
+        var login = await axios.get('http://localhost:4000/user', {
+            params: {
+                email: emailInput.value,
+                password: passwordInput.value
+            }
+        });
     
-        // const user = new User(emailInput.value, passwordInput.value); for later + sign up only..
-    
-        console.log("success: "+emailInput+ " "+passwordInput);
-
-        // assuming the info is valid..
-        handleLogin();
-        navigate('/dashboard');
+        if (login.data.length) {
+            console.log("success: "+emailInput.value+ " "+passwordInput.value+" "+login.data.length);
+            handleLogin();
+            navigate('/dashboard');
+        } else {
+            console.log("user not found");
+        }
+        
     };
 
 

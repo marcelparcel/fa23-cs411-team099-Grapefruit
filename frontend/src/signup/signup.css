@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Contrail+One');
+
 .signup-container {
     display: flex;
     align-items: center;
@@ -27,6 +29,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-family: 'Contrail One';
   }
   
   
@@ -36,6 +39,8 @@ button {
     width: 60%;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-family: 'Contrail One';
+
   }
   
   .login-link {
