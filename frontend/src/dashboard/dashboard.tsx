@@ -7,6 +7,8 @@ export default function DashboardView() {
     const favoriteStops = ["Stop 1", "Stop 2", "Stop 3"];
 
     return (
+        <div>
+        <h1 className="dashboardtext">Dashboard</h1>
         <div className="favorites-container">
             <div className="favorites-box">
                 <h1>Favorites</h1>
@@ -19,6 +21,7 @@ export default function DashboardView() {
                 </ul>
                 
             </div>
+        </div>
         </div>
     );
 }
