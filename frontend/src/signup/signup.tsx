@@ -28,7 +28,7 @@ export const SignUpView: React.FC<LoginViewProps> = ({ handleLogin }) => {
     if (Object.keys(signup)) {
       console.log('Signed up successfully with email: '+emailInput.value+' and password: '+passwordInput.value);
       handleLogin();
-      navigate('/dashboard');
+      navigate('/planner');
     } else {
       console.log("unable to sign up :(");
     }

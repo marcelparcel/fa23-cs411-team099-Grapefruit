@@ -11,7 +11,7 @@ import {
 import HomeView from './home/home';
 import { LoginView } from './login/login';
 import PlannerView from './planner/planner';
-import DashboardView from './dashboard/dashboard';
+import FavoritesView from './favorites/favorites';
 import { SignUpView } from './signup/signup';
 import { LogoutView } from './logout/logout';
 import AccountView from './account/account';
@@ -38,16 +38,16 @@ const LoggedInNav = () => {
   return (
     <div>
     <nav id="navbar" className="loggedin">
-      <Link
+     {/* eslint-disable-next-line */}
+      <a
         className={"link-styles"}
-        to="/account"
         onMouseEnter={handleMouseEnter}
       >
         Account
-      </Link>
+      </a>
       
       <Link className={"link-styles"} to="/planner">Trip Planner</Link>
-      <Link className={"link-styles"} to="/dashboard">Dashboard</Link>
+      <Link className={"link-styles"} to="/favorites">Favorites</Link>
       <Link className={"link-home"} to="/">São Paulo Adventure</Link>
     </nav>
 
@@ -87,9 +87,9 @@ function App() {
            <Route path="/login" element={<LoginView handleLogin={handleLogin} />} />
            <Route path="/signup" element={<SignUpView handleLogin={handleLogin} />}/>
            <Route path="/planner" element={<PlannerView></PlannerView>}/>
-           <Route path="/dashboard" element={<DashboardView></DashboardView>}/>
+           <Route path="/favorites" element={<FavoritesView></FavoritesView>}/>
            <Route path="/logout" element={<LogoutView handleLogout={handleLogout} />}/>
-           <Route path="/account" element={<AccountView></AccountView>}/>
+           <Route path="/account/update" element={<AccountView></AccountView>}/>
 
         </Routes>
      </div>

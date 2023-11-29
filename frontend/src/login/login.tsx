@@ -32,7 +32,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
             console.log("success: "+emailInput.value+ " "+passwordInput.value+" "+login.data.length);
             setLoginError(false);
             handleLogin();
-            navigate('/dashboard');
+            navigate('/favorites');
         } else {
             console.log("user not found"+emailInput.value+ " "+passwordInput.value);
             setLoginError(true);
