@@ -15,7 +15,6 @@ export const LogoutView: React.FC<LogoutViewProps> = ({ handleLogout }) => {
           navigate('/');
         }, 1200);
     
-        // Cleanup the timeout to avoid potential memory leaks
         return () => clearTimeout(timeoutId);
       }, [navigate, handleLogout]);
     
@@ -23,7 +22,7 @@ export const LogoutView: React.FC<LogoutViewProps> = ({ handleLogout }) => {
 
     return (
         <div className="logoutbody">
-            <h1>Logging out..</h1> 
+            <h1 className="logouttext">Logging out.. 👋</h1> 
         </div>
     );
 }

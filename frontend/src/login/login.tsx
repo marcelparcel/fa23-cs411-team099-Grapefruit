@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './login.css';
@@ -8,6 +8,7 @@ interface LoginViewProps {
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
+    const [loginError, setLoginError] = useState(false);
     const navigate = useNavigate();
 
     const loginUser = async () => {
@@ -29,11 +30,12 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
     
         if (login.data.length) {
             console.log("success: "+emailInput.value+ " "+passwordInput.value+" "+login.data.length);
+            setLoginError(false);
             handleLogin();
             navigate('/dashboard');
         } else {
             console.log("user not found"+emailInput.value+ " "+passwordInput.value);
-            console.log(login.data);
+            setLoginError(true);
         }
         
     };
@@ -45,8 +47,13 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
                 <h1>Log in</h1>
                 <input type="text" placeholder="Email" />
                 <input type="password" placeholder="Password" />
+                {loginError && (
+                <div className="error-message">
+                    Email and password not found. Please try again.
+                </div>
+                )}
                 <a href="signup" className="signup-link">No account yet? Sign up here</a>
-                <button onClick={loginUser}>Login</button>
+                <button className="loginbutton" onClick={loginUser}>Login</button>
             </div>
         </div>
     );

@@ -34,7 +34,7 @@ input {
   font-size: 10px;
 }
 
-button {
+.loginbutton {
   margin: 10px 0;
   padding: 10px;
   background-color: #b05ccf;
@@ -42,5 +42,21 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.error-message {
+  width: 250px;
+  height: 50px;
+  margin: 10px 0;
+  border-color: #dd3a3a;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #ffd6d6;
+  font-size: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
   

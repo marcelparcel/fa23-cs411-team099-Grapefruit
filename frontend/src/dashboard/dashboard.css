@@ -1,0 +1,36 @@
+.favorites-container {
+    display: flex;
+    align-items: center;
+    margin-left: 10%;
+    height: 100vh;
+    text-align: center;
+}
+
+.favorites-box {
+    width: 200px;
+    height: 300px;
+    border: 2px solid black;
+    border-radius: 10px;
+    background-color: #bfbce1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+ul {
+    list-style-type: none;
+    text-align: center;
+    padding: 0px;
+    margin: auto; 
+    width: 100%; 
+    font-size: 20px;
+}
+
+li {
+    margin-bottom: 30px; 
+}
+
+a {
+    text-decoration: none; 
+}
