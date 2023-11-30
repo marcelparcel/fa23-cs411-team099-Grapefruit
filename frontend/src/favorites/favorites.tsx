@@ -14,7 +14,7 @@ export default function FavoritesView() {
 
     const favoriteStops = [ 
         {
-            name: "Stop 1",
+            name: "eeeeeeeeeeeeeeeeeeeeeeeeeeee",
             lines: [
                 { line: "trip 1", headsign: "headsign", minutes: 5 },
                 { line: "trip 2", headsign: "headsign", minutes: 8 },
@@ -64,11 +64,11 @@ export default function FavoritesView() {
                     <h1>Favorite Stops</h1>
                     <ul>
                         {favoriteStops.map((stop, index) => (
-                            <li key={index}>
-                                <h3>{stop.name}</h3>
-                                <ul>
+                            <li className="stopli" key={index}>
+                                <h3 className="stopnames">{stop.name}</h3>
+                                <ul className="stopbox">
                                     {stop.lines.map((line, lineIndex) => (
-                                        <li key={lineIndex}>
+                                        <li className="stopdepartures" key={lineIndex}>
                                             <h5>{`${line.line} (${line.headsign}) - Leaving in ${line.minutes} minutes`}</h5>
                                         </li>
                                     ))}
@@ -76,8 +76,11 @@ export default function FavoritesView() {
                             </li>
                         ))}
                     </ul>
-                    <button className="stopbuttons" onClick={addStop}>Add stop</button>
-                    <button className="stopbuttons" onClick={removeStop}>Remove stop</button>
+                    <div>
+                        <button className="stopbuttons" onClick={addStop}>Add stop</button>
+                        <button className="stopbuttons" onClick={removeStop}>Remove stop</button>
+                    </div>
+                    
                 </div>
             </div>
         </div>

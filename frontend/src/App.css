@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Contrail+One');
-
+body {
+  background-color: #f0f0f0;
+}
 .App {
   text-align: center;
 }
@@ -76,7 +78,6 @@
 }
 
 .main {
-  background-color: #f0f0f0;
   font-family: 'Contrail One';
 }
 

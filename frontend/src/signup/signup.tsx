@@ -1,36 +1,38 @@
 import './signup.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 interface LoginViewProps {
   handleLogin: () => void;
 }
 
 export const SignUpView: React.FC<LoginViewProps> = ({ handleLogin }) => {
+  const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
   const signUpUser = async () => {
+    const nameInput = document.querySelector('input[type="text"]') as HTMLInputElement;
     const emailInput = document.querySelector('input[type="text"]') as HTMLInputElement;
     const passwordInput = document.querySelector('input[type="password"]') as HTMLInputElement;
 
-    if (!emailInput.value || !passwordInput.value) {
-        alert('Please enter both email and password.');
-        return;
+    if (!emailInput.value || !passwordInput.value || !nameInput.value) {
+        setLoginError(true);
     }
 
     var signup = await axios.post('http://localhost:4000/user', { 
         params: {
           email: emailInput.value,
-          password: passwordInput.value
-          // add name 
+          password: passwordInput.value,
+          name: nameInput.value
         }
     });
 
     if (Object.keys(signup)) {
-      console.log('Signed up successfully with email: '+emailInput.value+' and password: '+passwordInput.value);
       handleLogin();
       navigate('/planner');
     } else {
       console.log("unable to sign up :(");
+      alert("something went wrong.. try again");
     }
   };
 
@@ -41,6 +43,11 @@ export const SignUpView: React.FC<LoginViewProps> = ({ handleLogin }) => {
                 <input type="text" placeholder="Name" />
                 <input type="text" placeholder="Email" />
                 <input type="password" placeholder="Password" />
+                {loginError && (
+                <div className="error-message">
+                    Please fill out all the fields.
+                </div>
+                )}
                 <a href="login" className="login-link">Already have an account? Log in here</a>
                 <button onClick={signUpUser}>Sign Up</button>
             </div>
