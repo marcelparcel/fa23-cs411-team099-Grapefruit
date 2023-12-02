@@ -10,7 +10,6 @@ var userRouter = require('./routes/user');
 var stopRouter = require('./routes/stop');
 var stop_idRouter = require('./routes/stop_id');
 var stored_procedureRouter = require('./routes/stored_procedure');
-var stored_procedureRouter2 = require('./routes/stored_procedure2');
 var app = express();
 
 // view engine setup
@@ -29,7 +28,7 @@ app.use('/user', userRouter);
 app.use('/stop', stopRouter);
 app.use('/stop/:id', stop_idRouter);
 app.use('/sp',stored_procedureRouter);
-app.use('/sp2',stored_procedureRouter2);
+
 //Put another route for 2nd stored proceudre
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
