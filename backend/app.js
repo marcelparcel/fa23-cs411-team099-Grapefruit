@@ -8,7 +8,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var stopRouter = require('./routes/stop');
-var stop_idRouter = require('./routes/stop_id');
+var tripRouter = require('./routes/trip');
 var stored_procedureRouter = require('./routes/stored_procedure');
 var app = express();
 
@@ -26,10 +26,10 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/stop', stopRouter);
-app.use('/stop/:id', stop_idRouter);
+app.use('/trip', tripRouter);
 app.use('/sp',stored_procedureRouter);
 
-//Put another route for 2nd stored proceudre
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
