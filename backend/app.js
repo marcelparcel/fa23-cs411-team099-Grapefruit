@@ -7,6 +7,7 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
+var favRouter = require('./routes/favorite_stop');
 var stopRouter = require('./routes/stop');
 var tripRouter = require('./routes/trip');
 var stored_procedureRouter = require('./routes/stored_procedure');
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/fav', favRouter);
 app.use('/stop', stopRouter);
 app.use('/trip', tripRouter);
 app.use('/sp',stored_procedureRouter);
