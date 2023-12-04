@@ -12,6 +12,7 @@ var stopRouter = require('./routes/stop');
 var tripRouter = require('./routes/trip');
 var pointRouter = require('./routes/point');
 var stored_procedureRouter = require('./routes/stored_procedure');
+var triggerRouter = require('./routes/trigger');
 var app = express();
 
 // view engine setup
@@ -32,6 +33,7 @@ app.use('/stop', stopRouter);
 app.use('/trip', tripRouter);
 app.use('/point', pointRouter);
 app.use('/sp',stored_procedureRouter);
+app.use('/trigger',triggerRouter);
 
 
 // catch 404 and forward to error handler
