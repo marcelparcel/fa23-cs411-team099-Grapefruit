@@ -10,6 +10,7 @@ var userRouter = require('./routes/user');
 var favRouter = require('./routes/favorite_stop');
 var stopRouter = require('./routes/stop');
 var tripRouter = require('./routes/trip');
+var pointRouter = require('./routes/point');
 var stored_procedureRouter = require('./routes/stored_procedure');
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/user', userRouter);
 app.use('/fav', favRouter);
 app.use('/stop', stopRouter);
 app.use('/trip', tripRouter);
+app.use('/point', pointRouter);
 app.use('/sp',stored_procedureRouter);
 
 
