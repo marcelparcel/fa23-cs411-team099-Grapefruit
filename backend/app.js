@@ -11,6 +11,7 @@ var favRouter = require('./routes/favorite_stop');
 var stopRouter = require('./routes/stop');
 var tripRouter = require('./routes/trip');
 var stored_procedureRouter = require('./routes/stored_procedure');
+var triggerRouter = require('./routes/trigger');
 var app = express();
 
 // view engine setup
@@ -30,6 +31,7 @@ app.use('/fav', favRouter);
 app.use('/stop', stopRouter);
 app.use('/trip', tripRouter);
 app.use('/sp',stored_procedureRouter);
+app.use('/trigger',triggerRouter);
 
 
 // catch 404 and forward to error handler
