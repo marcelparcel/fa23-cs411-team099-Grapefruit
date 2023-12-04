@@ -14,7 +14,7 @@ import PlannerView from './planner/planner';
 import FavoritesView from './favorites/favorites';
 import { SignUpView } from './signup/signup';
 import { LogoutView } from './logout/logout';
-import AccountView from './account/account';
+import { AccountView } from './account/account';
 
 const NoLoginNav = () => (
   <nav id="navbar" className="nologin">
@@ -55,9 +55,7 @@ const LoggedInNav = () => {
         <div className="dropdown-content" 
         onMouseEnter={handleMouseEnter} 
         onMouseLeave={handleMouseLeave}>
-            <Link className={"dropdown-styles"} to="/account/update">Update Information</Link>
-            <br></br><br></br>
-            <Link className={"dropdown-styles"} to="/account/delete">Delete Account</Link>
+            <Link className={"dropdown-styles"} to="/account/update">Manage Account</Link>
             <br></br><br></br>
             <Link className={"dropdown-styles"} to="/logout">Logout</Link>
         </div>
@@ -68,13 +66,20 @@ const LoggedInNav = () => {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>(''); // You can fetch this from your authentication logic
+  const [userPassword, setUserPassword] = useState<string>('');
 
-  const handleLogin = () => {
+
+  const handleLogin = (email: string, password: string) => {
     setIsLoggedIn(true);
+    setUserEmail(email);
+    setUserPassword(password);
+    console.log("handling login.." + email + " " + password);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUserEmail('');
   };
 
   return (
@@ -89,7 +94,7 @@ function App() {
            <Route path="/planner" element={<PlannerView></PlannerView>}/>
            <Route path="/favorites" element={<FavoritesView></FavoritesView>}/>
            <Route path="/logout" element={<LogoutView handleLogout={handleLogout} />}/>
-           <Route path="/account/update" element={<AccountView></AccountView>}/>
+           <Route path="/account/update" element={<AccountView isLoggedIn={isLoggedIn} userEmail={userEmail} userPassword={userPassword}></AccountView>}/>
 
         </Routes>
      </div>

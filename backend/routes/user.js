@@ -4,13 +4,13 @@ var user = express.Router();
 
 /* Logging in user */
 user.get('/', async function(req, res) {
-  if (!req.query.email) {
+  if (!req.query.email || !req.query.password) {
     return res.status(400).json({ message: 'Missing email.' });
   }
   var conn = await getConn;
-  var query = 'SELECT * FROM User WHERE Email = ?';
+  var query = 'SELECT * FROM User WHERE Email = ? AND Password = ?';
   try {
-      const rows = await conn.query(query, [req.query.email]);
+      const rows = await conn.query(query, [req.query.email, req.query.password]);
       conn.release();
       return res.json(rows[0]);
     } catch (err) {
