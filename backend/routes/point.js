@@ -10,17 +10,17 @@ point.get('/', async function(req, res) {
     }
     var conn = await getConn;
     var query = 'SELECT * FROM Point WHERE TripId = ? ORDER BY Sequence ASC';
-    if (req.query.select) {
-        query = 'SELECT * FROM Stop WHERE StopId = ?';
+    if (req.query.id2) {
+        query = 'SELECT * FROM Stop WHERE StopId = ? OR StopId = ?';
     }
     try {
-        const rows = await conn.query(query, [req.query.id]);
-        conn.release();
+        const rows = await conn.query(query, [req.query.id, req.query.id2]);
         return res.json(rows[0]);
-      } catch (err) {
+    } catch (err) {
         console.error(err);
-        conn.release();
         return res.status(500).json({ error: 'An error occurred while executing the query.' });
+    } finally {
+        if (conn) conn.release();
     }
 });
 

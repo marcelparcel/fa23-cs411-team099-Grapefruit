@@ -1,0 +1,14 @@
+mapview {
+    height: 50vh; /* Adjust as needed */
+    width: 50%; /* Adjust as needed */
+    margin: 0 auto; /* Center the map horizontally */
+    border: 1px solid #ccc; /* Add a border around the map */
+
+}
+
+.leaflet-container {
+    height: 50vh; /* Adjust as needed */
+    width: 50%; /* Adjust as needed */
+    margin: 0 auto; /* Center the map horizontally */
+    border: 1px solid #ccc; /* Add a border around the map */
+}

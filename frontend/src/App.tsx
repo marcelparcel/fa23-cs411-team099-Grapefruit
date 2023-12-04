@@ -11,6 +11,7 @@ import {
 import HomeView from './home/home';
 import { LoginView } from './login/login';
 import PlannerView from './planner/planner';
+import ResultsView from './planner/results';
 import FavoritesView from './favorites/favorites';
 import { SignUpView } from './signup/signup';
 import { LogoutView } from './logout/logout';
@@ -90,6 +91,7 @@ function App() {
            <Route path="/favorites" element={<FavoritesView></FavoritesView>}/>
            <Route path="/logout" element={<LogoutView handleLogout={handleLogout} />}/>
            <Route path="/account/update" element={<AccountView></AccountView>}/>
+           <Route path="/results" element={<ResultsView></ResultsView>}/>
 
         </Routes>
      </div>
