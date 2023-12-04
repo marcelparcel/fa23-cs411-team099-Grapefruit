@@ -29,11 +29,23 @@
   }
 
 .passbutton {
-    margin: 10px 0;
+    margin: 10px;
     padding: 10px;
+    font-size: 10px;
     background-color: #3b2b41;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+  .passwbutton {
+    display: flex;
+    width: 70%;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .deletebutton {
+    background-color: rgb(106, 31, 31);
   }

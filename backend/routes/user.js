@@ -5,7 +5,7 @@ var user = express.Router();
 /* Logging in user */
 user.get('/', async function(req, res) {
   if (!req.query.email || !req.query.password) {
-    return res.status(400).json({ message: 'Missing email or password.' });
+    return res.status(400).json({ message: 'Missing email.' });
   }
   var conn = await getConn;
   var query = 'SELECT * FROM User WHERE Email = ? AND Password = ?';
@@ -22,6 +22,7 @@ user.get('/', async function(req, res) {
 
 /* Creating user */
 user.post('/', async function(req, res) {
+  console.log(req.body);
   if (!req.body.email || !req.body.password || !req.body.name) {
     return res.status(400).json({ message: 'Missing information.' });
   }
@@ -58,13 +59,13 @@ user.put('/', async function(req, res) {
 
 /* Deleting user */
 user.delete('/', async function(req, res) {
-  if (!req.body.email || !req.body.password) {
+  if (!req.query.email || !req.query.password) {
     return res.status(400).json({ message: 'Missing email.' });
   }
   var conn = await getConn;
   var query = 'DELETE FROM User WHERE Email = ? AND Password = ?';
   try {
-      const rows = await conn.query(query, [req.body.email, req.body.password]);
+      const rows = await conn.query(query, [req.query.email, req.query.password]);
       conn.release();
       return res.json(rows[0]);
     } catch (err) {

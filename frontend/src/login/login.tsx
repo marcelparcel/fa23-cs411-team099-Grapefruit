@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 interface LoginViewProps {
-    handleLogin: () => void;
+    handleLogin: (email: string, password: string) => void;
 }
 
 export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
@@ -31,7 +31,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ handleLogin }) => {
         if (login.data.length) {
             console.log("success: "+emailInput.value+ " "+passwordInput.value+" "+login.data.length);
             setLoginError(false);
-            handleLogin();
+            handleLogin(emailInput.value, passwordInput.value);
             navigate('/favorites');
         } else {
             console.log("user not found"+emailInput.value+ " "+passwordInput.value);
