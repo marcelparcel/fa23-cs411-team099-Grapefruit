@@ -26,6 +26,7 @@ fav.post('/', async function(req, res) {
         return res.status(400).json({ message: 'Missing email' });
     }
     var conn = await getConn;
+    // this might need to be update? idk
     var query = 'INSERT INTO FavoriteStop(Email, StopId1, StopId2, StopId3) VALUES (?, ?, ?, ?)';
     try {
         const rows = await conn.query(query, [req.body.email]);
