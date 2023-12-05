@@ -106,3 +106,10 @@ h5 {
     flex-direction: column;
     align-items: center;
 }
+
+.dropinput-fav-del {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}

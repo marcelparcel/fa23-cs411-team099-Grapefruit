@@ -40,13 +40,13 @@ fav.post('/', async function(req, res) {
 
 /* Delete favorite stop */
 fav.delete('/', async function(req, res) {
-    if (!req.body.email || !req.body.stopid) {
+    if (!req.query.email || !req.query.stopid) {
         return res.status(400).json({ message: 'Missing email or Stop' });
     }
     var conn = await getConn;
     var query = 'DELETE FROM FavoriteStop WHERE Email = ? AND StopId = ?';
     try {
-        const rows = await conn.query(query, [req.body.email, req.body.stopid]);
+        const rows = await conn.query(query, [req.query.email, req.query.stopid]);
         conn.release();
         return res.json(rows[0]);
       } catch (err) {
