@@ -49,7 +49,8 @@ const LoggedInNav = () => {
       
       <Link className={"link-styles"} to="/planner">Trip Planner</Link>
       <Link className={"link-styles"} to="/favorites">Favorites</Link>
-      <Link className={"link-home"} to="/">São Paulo Adventure</Link>
+      {/* eslint-disable-next-line */}
+      <a className={"link-home"}>São Paulo Adventure</a>
     </nav>
 
     {isDropdownOpen && (
@@ -101,6 +102,7 @@ function App() {
         </Routes>
      </div>
     </Router>
+    
    );
 }
 

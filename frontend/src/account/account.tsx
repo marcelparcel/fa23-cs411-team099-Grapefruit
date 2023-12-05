@@ -39,7 +39,7 @@ export const AccountView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmail,
         if (isLoggedIn) {
             getInfo();
         }
-        console.log("in useeffect");
+        // console.log("in useeffect");
         
     }, [isLoggedIn, userEmail, userPassword]);
 

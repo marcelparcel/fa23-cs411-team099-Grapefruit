@@ -50,7 +50,6 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
     }
 
     const fetchTripsForFavoriteStops = useCallback(async () => {
-        console.log("fetching trips for favorite stops..");
         try {
           // Create a temporary object to hold the updated stopTrips state
           const updatedStopTrips: { [stopId: number]: any[] } = {};
@@ -68,8 +67,6 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
     
               // Assuming successful API call returns some data
               if (response.data) {
-                console.log("API call successful:");
-                console.log(response.data);
     
                 // Update the temporary object with trip information for the current stop
                 updatedStopTrips[stop] = response.data;
@@ -96,7 +93,7 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
             }).then(response => {
                 // Assuming successful signup returns some data
                 if (response.data) {
-                    console.log("delete successful:");
+                    console.log(response.data);
                 }
                 }).catch(function (error) {
                 if (error.response) {
@@ -122,7 +119,7 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
             }).then(response => {
                 // Assuming successful signup returns some data
                 if (response.data) {
-                    console.log("post successful:");
+                    console.log(response.data);
                     //setFavoriteStops(response.data[0]);
                 }
                 }).catch(function (error) {
@@ -188,7 +185,7 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
 
     const handleSelectStopRemove = (selected_stop: number) => {
         // Update the input box with the selected stop
-        console.log(selectedStopId);
+        // console.log(selectedStopId);
         setSelectedStopId(selected_stop);
         setMatchingStops([]); // close dropdown
     };
