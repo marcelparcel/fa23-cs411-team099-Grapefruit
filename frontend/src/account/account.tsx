@@ -15,12 +15,8 @@ export const AccountView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmail,
     const [showPassword, setShowPassword] = useState(false);
     const [placeholderName, setPlaceholderName] = useState('Name');
     const [placeholderPassword, setPlaceholderPassword] = useState(userPassword);
-
-    console.log("is logged in:");
-    console.log(isLoggedIn);
-
-    console.log("current email:");
-    console.log(userEmail);
+    const [fieldError, setFieldError] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         const getInfo = async () => {
@@ -79,25 +75,25 @@ export const AccountView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmail,
     };
 
     const updateAccount = async () => {
-        console.log(userEmail);
-        console.log(passwordInput.value);
-        console.log(nameInput.value);
 
-        var upd = await axios.put('http://localhost:4000/user', { 
+        await axios.put('http://localhost:4000/user', { 
             name: placeholderName,
             email: userEmail,
             password: placeholderPassword
+        }).then(response => {
+            // Assuming successful signup returns some data
+            if (response.data) {
+                console.log("success!");
+                setFieldError(false);
+                setSuccess(true);
+            }
+        }).catch(function (error) {
+            if (error.response) {
+                setSuccess(false);
+                setFieldError(true);
+              
+            }
         });
-
-        /* console.log(emailInput.value);
-        console.log(passwordInput.value);
-        console.log(nameInput.value); */
-
-        if (Object.keys(upd)) {
-            console.log("success!");
-        } else {
-            alert("something went wrong.. try again");
-        }
     };
 
     return (
@@ -124,7 +120,16 @@ export const AccountView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmail,
                         {showPassword ? 'Hide' : 'Show'} Password
                     </button>
                 </div>
-
+                {fieldError && (
+                <div className="error-message">
+                    Please fill out all the fields.
+                </div>
+                )}
+                {success && (
+                <div className="success-message">
+                    Successfully updated information.
+                </div>
+                )}
                 <div className="passwbutton">
                     <button className="accountbutton" onClick={updateAccount}>Update</button>
                     <button className="deletebutton" onClick={deleteAccount}>Delete Account</button>

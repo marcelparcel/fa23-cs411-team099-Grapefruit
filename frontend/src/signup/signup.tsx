@@ -23,16 +23,19 @@ export const SignUpView: React.FC<LoginViewProps> = ({ handleLogin }) => {
         email: emailInput.value,
         password: passwordInput.value,
         name: nameInput.value
-      }).catch(function (error) {
+      }).then(response => {
+        // Assuming successful signup returns some data
+        if (response.data) {
+          handleLogin(emailInput.value, passwordInput.value);
+          navigate('/planner');
+        }
+        }).catch(function (error) {
         if (error.response) {
+          console.log("something went wrong..");
           setTakenError(true);
-        } else {
-            handleLogin(emailInput.value, passwordInput.value);
-            navigate('/planner');
         }
       });
     }
-
   };
 
   return (

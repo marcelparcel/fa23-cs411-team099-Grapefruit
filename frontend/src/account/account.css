@@ -49,3 +49,19 @@
   .deletebutton {
     background-color: rgb(106, 31, 31);
   }
+
+  .success-message {
+    width: 250px;
+    height: 50px;
+    margin: 10px 0;
+    border-color: #1e6f32;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #d6ffe1;
+    font-size: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
