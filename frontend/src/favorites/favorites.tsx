@@ -67,17 +67,20 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
         fetchFavoriteStops(); // update
     }
 
-    const getStop = async (stopInput) => {
+    const findStopIdByName = (name: string): number | undefined => {
+        const foundStop = allStops.find(stop => stop.Name === name);
+        return foundStop?.StopId;
+    };
 
-    }
+    const getStop = (stopInput) => {
+        addStop(findStopIdByName(stopInput));
+    };
 
-    const addStop = async () => {
+    const addStop = async (stop_1: number) => {
         try {
             await axios.post('http://localhost:4000/fav', {
                 email: userEmail,
-                ...(Stop1 !== null ? { StopId1: Stop1 } : {StopId1: null}),
-                ...(Stop2 !== null ? { StopId2: Stop2 } : {StopId2: null}),
-                ...(Stop3 !== null ? { StopId3: Stop3 } : {StopId3: null})
+                StopId1: stop_1
             }).then(response => {
                 // Assuming successful signup returns some data
                 if (response.data) {
@@ -203,7 +206,7 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
                                     )}
                                 </div>
                                 <div>
-                                <button className="stopbuttons" onClick={addStop}>Add</button>
+                                {/* <button className="stopbuttons" onClick={getStop(stopInput)}>Add</button> */}
                                 <button className="stopbuttons" onClick={closePopup}>Cancel</button>
                                 </div>
                             </div>
