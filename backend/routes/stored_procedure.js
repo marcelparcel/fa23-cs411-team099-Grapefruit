@@ -6,6 +6,7 @@ sp.get('/', async function(req, res, next) {
     
     var conn = await getConn;
     var query =  "CALL Result()"
+    if (req.query.get) query = "SELECT * FROM NewTable";
     
     try {
         const rows = await conn.query(query); // example query P
