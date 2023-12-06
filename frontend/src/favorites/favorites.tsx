@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'; // add useState later...
+import React, { useEffect, useState, useCallback } from 'react'; // add useState later...
 import './favorites.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface AccountViewProps {
     isLoggedIn: boolean;
@@ -13,99 +14,154 @@ interface Stop {
   }
 
 export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmail }) => {
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+    const [isRemovePopupOpen, setIsRemovePopupOpen] = useState(false);
     const [matchingStops, setMatchingStops] = useState<string[]>([]);
     const [allStopNames, setAllStopNames] = useState<string[]>([]);
     const [stopInput, setStopInput] = useState('');
     const [allStops, setAllStops] = useState<Stop[]>([]);
+    const [favoriteStops, setFavoriteStops] = useState<number[]>([]); // array of stopIds
+    const [selectedStopId, setSelectedStopId] = useState<number | null>(null); // new state for selected stop ID
+    const [stopTrips, setStopTrips] = useState<{ [stopId: number]: any[] }>({});
 
-    var Stop1 = null;
-    var Stop2 = null;
-    var Stop3 = null;
-    // const [favoriteStops, setFavoriteStops] = useState([Stop1, Stop2, Stop3]); uncomment after endpoint implemented
+    const navigate = useNavigate();
 
 
-    // placeholder for now..
-    useEffect(() => {
-        // Fetch favorite stops from the API on component mount
-        console.log("in useeffect");
-        fetchFavoriteStops();
-    }, []);
+
 
     useEffect(() => {
         // console.log("in useeffect");
         fetchStops();
     }, []);
 
+    // let time = "11/10/2015 10:00:00";
 
-    const favoriteStops = [ 
-        /* {
-            name: "eeeeeeeeeeeeeeeeeeeeeeeeeeee",
-            lines: [
-                { line: "trip 1", headsign: "headsign", minutes: 5 },
-                { line: "trip 2", headsign: "headsign", minutes: 8 },
-                { line: "trip 3", headsign: "headsign", minutes: 10 }
-            ]
-        },
-        {
-            name: "Stop 2",
-            lines: [
-                { line: "trip 4", headsign: "headsign", minutes: 7 },
-                { line: "trip 5", headsign: "headsign", minutes: 12 }
-            ]
-        },
-        {
-            name: "Stop 3",
-            lines: [
-                { line: "trip 7", headsign: "headsign", minutes: 15 }
-            ]
-        } */
-    ];
+    // function getUTCDate(dateString) {
+    // // dateString format will be "MM/DD/YYYY HH:mm:ss"
+    // var [date, time] = dateString.split(" ");
+    // var [month, day, year] = date.split("/");
+    // var [hours, minutes, seconds] = time.split(":");
+    // return new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds)).toUTCString();
+    // }
 
-    const removeStop = () => {
-        // use delete/put endpoint
-        fetchFavoriteStops(); // update
+    function prettyTime(timeString: string) {
+        var [hours, minutes] = timeString.split(":");
+        return hours+":"+minutes;
     }
 
-    const findStopIdByName = (name: string): number | undefined => {
-        const foundStop = allStops.find(stop => stop.Name === name);
-        return foundStop?.StopId;
-    };
-
-    const getStop = (stopInput) => {
-        addStop(findStopIdByName(stopInput));
-    };
-
-    const addStop = async (stop_1: number) => {
+    const fetchTripsForFavoriteStops = useCallback(async () => {
         try {
-            await axios.post('http://localhost:4000/fav', {
-                email: userEmail,
-                StopId1: stop_1
+          // Create a temporary object to hold the updated stopTrips state
+          const updatedStopTrips: { [stopId: number]: any[] } = {};
+    
+          // Loop through favoriteStops and call the API for each stop
+          for (const stop of favoriteStops) {
+            var today = new Date();
+            try {
+              const response = await axios.get('http://localhost:4000/trip', {
+                params: {
+                  stopid: stop,
+                  day: today.getDay()
+                }
+              });
+    
+              // Assuming successful API call returns some data
+              if (response.data) {
+    
+                // Update the temporary object with trip information for the current stop
+                updatedStopTrips[stop] = response.data;
+              }
+            } catch (error) {
+              console.error('Error fetching trips:', error);
+            }
+          }
+    
+          // Update the state with the new stopTrips object
+          setStopTrips(updatedStopTrips);
+        } catch (error) {
+          console.error('Error fetching trips for favorite stops:', error);
+        }
+      }, [favoriteStops]);
+
+    const removeStop = async (stop: number) => {
+        try {
+            await axios.delete('http://localhost:4000/fav', {
+                params: {
+                    email: userEmail,
+                    stopid: stop
+                }
             }).then(response => {
                 // Assuming successful signup returns some data
                 if (response.data) {
-                    console.log("showing stops:");
                     console.log(response.data);
                 }
                 }).catch(function (error) {
                 if (error.response) {
                   console.log(error.response);
                 }
+                
               });
-            // setFavoriteStops(data); uncomment after endpoints implemented
         } catch (error) {
             console.error('Error fetching favorite stops:', error);
         }
 
 
         fetchFavoriteStops(); // update
+        setIsRemovePopupOpen(false);
+        
+    }
+
+    const addStop = async (stop: number) => {
+        try {
+            await axios.post('http://localhost:4000/fav', {
+                email: userEmail,
+                stopid: stop
+            }).then(response => {
+                // Assuming successful signup returns some data
+                if (response.data) {
+                    console.log(response.data);
+                    //setFavoriteStops(response.data[0]);
+                }
+                }).catch(function (error) {
+                if (error.response) {
+                  console.log(error.response);
+                }
+                
+              });
+        } catch (error) {
+            console.error('Error fetching favorite stops:', error);
+        }
+
+
+        fetchFavoriteStops(); // update
+        setIsAddPopupOpen(false);
         
     }
 
     
-    const openPopup = () => {
-        setIsPopupOpen(true);
+    const openAddPopup = () => {
+        setIsAddPopupOpen(true);
     };
+    const openRemovePopup = () => {
+        setIsRemovePopupOpen(true);
+    };
+    const closeAddPopup = () => {
+        setIsAddPopupOpen(false);
+    };
+    const closeRemovePopup = () => {
+        setIsRemovePopupOpen(false);
+    };
+
+    const findStopIdByName = (name: string): number | undefined => {
+        const foundStop = allStops.find(stop => stop.Name === name);
+        return foundStop?.StopId;
+    };
+
+    const findStopNameById = (id: number): string | undefined => {
+        const foundStop = allStops.find(stop => stop.StopId === id);
+        return foundStop?.Name;
+    };
+
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = event.target.value;
@@ -121,12 +177,17 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
         setMatchingStops(limitedResults);
     };
 
-    const handleSelectStop = (selectedStop: string) => {
+    const handleSelectStopAdd = (selectedStop: string) => {
         // Update the input box with the selected stop
         setStopInput(selectedStop);
+        setMatchingStops([]); // close dropdown
+    };
 
-        // Clear the matching stops (close the dropdown)
-        setMatchingStops([]);
+    const handleSelectStopRemove = (selected_stop: number) => {
+        // Update the input box with the selected stop
+        // console.log(selectedStopId);
+        setSelectedStopId(selected_stop);
+        setMatchingStops([]); // close dropdown
     };
 
     const fetchStops = async () => {
@@ -149,41 +210,47 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
         }
     };
 
-    const closePopup = () => {
-        setIsPopupOpen(false);
-    };
-
-    const fetchFavoriteStops = async () => {
+    const fetchFavoriteStops = useCallback(async () => {
         if (isLoggedIn) {
-            try {
-                await axios.get('http://localhost:4000/fav', {
-                    params: {
-                        email: userEmail
-                    }
-                }).then(response => {
-                    // Assuming successful signup returns some data
-                    if (response.data) {
-                        console.log("showing stops:");
-                        console.log(response.data);
-                    }
-                    }).catch(function (error) {
-                    if (error.response) {
-                    console.log("something went wrong..");
-                    }
-                });
-                // setFavoriteStops(data); uncomment after endpoints implemented
-            } catch (error) {
-                console.error('Error fetching favorite stops:', error);
-            }
+          try {
+            await axios.get('http://localhost:4000/fav', {
+              params: {
+                email: userEmail
+              }
+            }).then(response => {
+              if (response.data) {
+                const favoriteStops = response.data.map(stop => stop.StopId);
+                setFavoriteStops(favoriteStops);
+              }
+            }).catch(function (error) {
+              if (error.response) {
+                console.log("something went wrong..");
+              }
+            });
+          } catch (error) {
+            console.error('Error fetching favorite stops:', error);
+          }
+        } else {
+          navigate('/login');
         }
-    };
+      }, [isLoggedIn, userEmail, navigate, setFavoriteStops]);
+
+      useEffect(() => {
+        // Fetch favorite stops from the API on component mount
+        fetchFavoriteStops();
+      }, [fetchFavoriteStops]);
+
+      useEffect(() => {
+        // Fetch trips for favorite stops when favoriteStops changes
+        fetchTripsForFavoriteStops();
+      }, [favoriteStops, fetchTripsForFavoriteStops]);
 
     return (
         <div>
             <div className="favorites-container">
                 <div className="favorites-box">
                     <h1>Favorite Stops</h1>
-                    {isPopupOpen && (
+                    {isAddPopupOpen && (
                         <div className="popup-overlay">
                             <div className="popup-content">
                                 <h2>Add Stop</h2>
@@ -197,7 +264,7 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
                                     {matchingStops && matchingStops.length > 0 && (
                                         <select
                                             size={matchingStops.length > 10 ? 10 : matchingStops.length}
-                                            onChange={(e) => handleSelectStop(e.target.value)}
+                                            onChange={(e) => handleSelectStopAdd(e.target.value)}
                                         >
                                             {matchingStops.map(stop => (
                                                 <option key={stop} value={stop}>{stop}</option>
@@ -206,8 +273,36 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
                                     )}
                                 </div>
                                 <div>
-                                {/* <button className="stopbuttons" onClick={getStop(stopInput)}>Add</button> */}
-                                <button className="stopbuttons" onClick={closePopup}>Cancel</button>
+                                    <button className="stopbuttons" onClick={() => addStop(findStopIdByName(stopInput))}>Add</button>
+                                    <button className="stopbuttons" onClick={closeAddPopup}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {isRemovePopupOpen && (
+                        <div className="popup-overlay">
+                            <div className="popup-content">
+                                <h2>Remove Stop</h2>
+                                <div className="dropinput-fav-del">
+                                    {favoriteStops && favoriteStops.length > 0 && (
+                                        <select
+                                            size={favoriteStops.length > 10 ? 10 : favoriteStops.length}
+                                            onClick={(e) => handleSelectStopRemove(Number((e.target as HTMLSelectElement).value))}
+                                            onChange={(e) => handleSelectStopRemove(Number((e.target as HTMLSelectElement).value))}
+                                        >
+                                            {favoriteStops.map(stop => (
+                                                <option 
+                                                key={stop} 
+                                                value={stop}
+                                                onClick={(e) => handleSelectStopRemove(Number((e.target as HTMLSelectElement).value))}
+                                                >{findStopNameById(stop)}</option>
+                                            ))}
+                                        </select>
+                                    )}
+                                </div>
+                                <div>
+                                    <button className="stopbuttons" onClick={() => removeStop(selectedStopId)}>Remove</button>
+                                    <button className="stopbuttons" onClick={closeRemovePopup}>Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -218,21 +313,21 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
                         <ul>
                             {favoriteStops.map((stop, index) => (
                                 <li className="stopli" key={index}>
-                                    <h3 className="stopnames">{stop.name}</h3>
+                                    <h3 className="stopnames">{findStopNameById(stop)}</h3>
                                     <ul className="stopbox">
-                                        {stop.lines.map((line, lineIndex) => (
-                                            <li className="stopdepartures" key={lineIndex}>
-                                                <h5>{`${line.line} (${line.headsign}) - Leaving in ${line.minutes} minutes`}</h5>
-                                            </li>
-                                        ))}
+                                    {stopTrips[stop]?.map((trip, tripIndex) => (
+                                        <li className="stopdepartures" key={tripIndex}>
+                                            <h5>{`${trip.RouteId} (${trip.Headsign}) - Leaving at ${prettyTime(trip.Time)}`}</h5>
+                                        </li>
+                                    ))}
                                     </ul>
                                 </li>
                             ))}
                         </ul>
                         )}
                     <div>
-                        <button className="stopbuttons" onClick={openPopup}>Add stop</button>
-                        <button className="stopbuttons" onClick={removeStop}>Remove stop</button>
+                        <button className="stopbuttons" onClick={openAddPopup}>Add stop</button>
+                        <button className="stopbuttons" onClick={openRemovePopup}>Remove stop</button>
                     </div>
                     
                 </div>
@@ -240,8 +335,3 @@ export const FavoritesView: React.FC<AccountViewProps> = ({ isLoggedIn, userEmai
         </div>
     );
 };
-
-
-    // show favorite stops
-    // visualize upcoming routes going to/from favorite stops using the current time? (just an idea)
-    // add a favorite stop
