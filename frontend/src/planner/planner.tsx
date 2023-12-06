@@ -58,7 +58,6 @@ export default function PlannerView() {
             });
             const tripStopNames: EndStop[] = Array.from(stopMap.values());
             setMatchingEndStops(tripStopNames || []);
-            console.log(tripStopNames);
         } catch (error) {
             console.error('Error fetching stops:', error);
         }
@@ -96,7 +95,6 @@ export default function PlannerView() {
         const selectedStopId = parseInt(event.target.value, 10);
         const selectedStop: EndStop = matchingEndStops.find(stop => stop.StopId === selectedStopId);
         setEndInput(selectedStop);
-        console.log(selectedStop);
     };
 
     const handleResults = () => {
