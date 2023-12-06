@@ -2,15 +2,16 @@ DELIMITER $$
 CREATE PROCEDURE Result()
 BEGIN
    Declare varHeadsign VARCHAR(255);
-   Declare varCountTripId INT;
    Declare varAvgRoutePrice REAL;
+   Declare varCountTripId INT;
+   Declare varTripIds VARCHAR(1000);
    Declare varOptionsClassification VARCHAR(255);
   
    Declare exit_loop BOOLEAN default FALSE;
 
 
-   Declare tripCur CURSOR FOR(SELECT Trip.Headsign, COUNT(DISTINCT Trip.TripId), AVG(Route.Price)
-   AS avgRoutePrice
+   Declare tripCur CURSOR FOR(SELECT Trip.Headsign,AVG(Route.Price)
+   AS avgRoutePrice, COUNT(DISTINCT Trip.TripId) as numTripsIds, Group_Concat(DISTINCT Trip.TripId) as tripIds
    FROM  Trip
    JOIN StopsToTrips ON StopsToTrips.TripId = Trip.TripId
    JOIN Stop ON StopsToTrips.StopId = Stop.StopId
@@ -29,11 +30,12 @@ BEGIN
    Headsign VARCHAR(255),
    AvgRoutePrice Real,
    CountTripId INT,
+   TripIds VARCHAR(10000),
    OptionsClassification VARCHAR(255)
  );
    Open tripCur;
        cloop: LOOP
-       FETCH tripCur Into varHeadsign, varCountTripId, varAvgRoutePrice;
+       FETCH tripCur Into varHeadsign,  varAvgRoutePrice, varCountTripId, varTripIds;
    IF exit_loop THEN
        Leave cloop;
    END IF;
@@ -48,12 +50,12 @@ BEGIN
 
 
    END IF;
-   Insert INTO NewTable Value(varHeadsign, varAvgRoutePrice,  varCountTripId,  varOptionsClassification);
+   Insert INTO NewTable Value(varHeadsign, varAvgRoutePrice,  varCountTripId,  varTripIds, varOptionsClassification);
    END LOOP cloop;
    Close tripCur;
 
 
-   Select OptionsClassification, SUM(CountTripId) as Total_Trip_IDs, AVG(AvgRoutePrice) as AVG_Price, GROUP_CONCAT(Headsign) as Headsigns
+   Select OptionsClassification, SUM(CountTripId) as totalTripIDs, GROUP_CONCAT(TripIds) as DistinctTripIds, AVG(AvgRoutePrice) as avgPrice, GROUP_CONCAT(Headsign) as Headsigns
    From NewTable
    WHERE Headsign IN (Select Headsign From Trip WHERE ServiceId = "USD")
    Group BY OptionsClassification;
