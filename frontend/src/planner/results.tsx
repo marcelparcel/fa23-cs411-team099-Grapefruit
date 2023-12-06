@@ -38,7 +38,9 @@ const ResultsView = () => {
         geojson.features.push({
             "type": "Feature",
             "properties": {
-                "name": s1Data.Name
+                "name": s1Data.Name,
+                "id": s1Data.StopId,
+                "popupContent": `Start: ${s1Data.Name}<br>ID#${s1Data.StopId}`
             },
             "geometry": {
                 "type": "Point",
@@ -48,7 +50,9 @@ const ResultsView = () => {
         geojson.features.push({
             "type": "Feature",
             "properties": {
-                "name": s2Data.Name
+                "name": s2Data.Name,
+                "id": s2Data.StopId,
+                "popupContent": `End: ${s2Data.Name}<br>ID#${s2Data.StopId}`
             },
             "geometry": {
                 "type": "Point",
@@ -101,7 +105,7 @@ const ResultsView = () => {
 
     return (
         <div className="mapView">
-            <MapContainer center={center} zoom={13} scrollWheelZoom={true} 
+            <MapContainer center={center} zoom={12} scrollWheelZoom={true} 
             style={{ height:"50vh",marginTop:"80px", marginBottom:'90px'
             }}>
                 <TileLayer
@@ -109,7 +113,21 @@ const ResultsView = () => {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <GeoJSON data={tripPath} />
-                <GeoJSON data={stopPoints} />
+                <GeoJSON data={stopPoints}
+                pointToLayer={ (feature, latlng) => {
+                    let color;
+                    if (feature.properties.id === stop1) {
+                        color = '#7333FF';
+                    } else if (feature.properties.id === stop2) {
+                        color = 'green';
+                    } else {
+                        color = 'blue';
+                    }
+                    return L.circleMarker(latlng, { color });
+                }}
+                onEachFeature={ (feature, layer) => {
+                    layer.bindPopup(feature.properties.popupContent);
+                }}/>
             </MapContainer>
         </div>
     )

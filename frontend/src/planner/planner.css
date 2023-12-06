@@ -37,9 +37,13 @@
   }
 
   select {
-    border-radius: 5px;
+    /* border-radius: 5px; */
+    width: 322px;
   }
 
+  span {
+    margin: 10px 0;
+  }
   option:hover {
     background-color: #d1cceb
   }
