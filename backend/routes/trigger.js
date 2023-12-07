@@ -7,7 +7,7 @@ trigger.post('/', async function(req, res, next) {
         var conn = await getConn;
         console.log("hi")
         // Perform an update operation that triggers the CheckStopsPicked trigger
-        var updateQuery = "UPDATE StopsPicked SET StopId1 = ?, StopId2 = (SELECT StopId1 FROM StopsPicked WHERE Email = ?) WHERE Email = ?";
+        var updateQuery = "UPDATE StopsPicked SET StopId2 = StopId1, StopId1 = ? WHERE Email = ?;";
         //send email of user you would like to update on. 
         // Adjust the query based on your requirements
 
