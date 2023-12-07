@@ -12,3 +12,11 @@ mapview {
     margin: 0 auto; /* Center the map horizontally */
     border: 1px solid #ccc; /* Add a border around the map */
 }
+
+.maptext {
+    text-align: center;
+}
+
+.maptext h3 {
+    text-align: center;
+}
